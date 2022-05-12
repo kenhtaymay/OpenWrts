@@ -49,12 +49,19 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
+        echo "git clone $REPO_URL -b $REPO_BRANCH openwrt"
         git clone $REPO_URL -b $REPO_BRANCH openwrt
+        echo "ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt"
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        pwd
+        ls -la
+        echo "feed.conf.default========================================================"
+        cat openwrt/feeds.conf.default
+        echo "========================================================"
         chmod +x $SYS_CONF_SH
         cd openwrt
         $GITHUB_WORKSPACE/$SYS_CONF_SH
