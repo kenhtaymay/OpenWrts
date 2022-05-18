@@ -76,11 +76,13 @@ jobs:
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+
+        rm -rf openwrt/package/lean/default-settings
+        mv default-settings openwrt/package/lean/
+        
         chmod +x $PACKS
         cd openwrt
         $GITHUB_WORKSPACE/$PACKS
-        rm -rf openwrt/package/lean/default-settings
-        mv default-settings openwrt/package/lean/
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
